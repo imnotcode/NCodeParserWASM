@@ -1,0 +1,42 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: NCodeParserWASM/NCodeParserWASM
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: NCodeParserWASM/NCodeParserWASM
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      working-directory: NCodeParserWASM/NCodeParserWASM
+    - name: Publish with dotnet
+      run: dotnet publish --configuration Release --output build
+      working-directory: NCodeParserWASM/NCodeParserWASM
+    - name: Deploy to Github Pages
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: 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
+        BASE_BRANCH: main # The branch the action should deploy from.
+        BRANCH: master # The branch the action should deploy to.
+        FOLDER: NCodeParserWASM/NCodeParserWASM/build/wwwroot # The folder the action should deploy.
+        SINGLE_COMMIT: true
