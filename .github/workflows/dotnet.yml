@@ -22,16 +22,16 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: NCodeParserWASM/NCodeParserWASM
+      working-directory: NCodeParserWASM
     - name: Build
       run: dotnet build --no-restore
-      working-directory: NCodeParserWASM/NCodeParserWASM
+      working-directory: NCodeParserWASM
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: NCodeParserWASM/NCodeParserWASM
+      working-directory: NCodeParserWASM
     - name: Publish with dotnet
       run: dotnet publish --configuration Release --output build
-      working-directory: NCodeParserWASM/NCodeParserWASM
+      working-directory: NCodeParserWASM
     - name: Deploy to Github Pages
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
